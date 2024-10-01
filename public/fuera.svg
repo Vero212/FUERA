@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="100%" height="100%">
+            <!-- Fondo amarillo claro con gradiente que cubre toda la pantalla -->
+            <defs>
+                <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:#FFFF80; stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#FFFFFF; stop-opacity:1" />
+                </linearGradient>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#grad1)" />
+
+            <!-- Semicírculos negros más finos a la izquierda -->
+            <g>
+                <circle cx="150" cy="200" r="250" fill="none" stroke="#000000" stroke-width="20" />
+                <circle cx="150" cy="400" r="300" fill="none" stroke="#000000" stroke-width="15" opacity="0.7" />
+                <circle cx="150" cy="600" r="350" fill="none" stroke="#000000" stroke-width="10" opacity="0.5" />
+                <circle cx="150" cy="800" r="400" fill="none" stroke="#000000" stroke-width="5" opacity="0.3" />
+            </g>
+
+            <!-- Filtro de desenfoque opcional para suavizar los círculos -->
+            <defs>
+                <filter id="blur" x="-20%" y="-20%" width="150%" height="150%">
+                    <feGaussianBlur in="SourceGraphic" stdDeviation="10" />
+                </filter>
+            </defs>
+
+            <!-- Aplicar el filtro de desenfoque -->
+            <g filter="url(#blur)">
+                <circle cx="150" cy="200" r="250" fill="none" stroke="#000000" stroke-width="20" />
+                <circle cx="150" cy="400" r="300" fill="none" stroke="#000000" stroke-width="15" opacity="0.7" />
+                <circle cx="150" cy="600" r="350" fill="none" stroke="#000000" stroke-width="10" opacity="0.5" />
+                <circle cx="150" cy="800" r="400" fill="none" stroke="#000000" stroke-width="5" opacity="0.3" />
+            </g>
+        </svg>

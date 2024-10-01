@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 877 968">
+    <g clip-path="url(#a)">
+        <circle cx="391" cy="391" r="390.5" stroke="#FFC300" transform="matrix(-1 0 0 1 416 -56)"/>
+        <circle cx="468" cy="468" r="467.5" stroke="#FFC300" opacity=".3" transform="matrix(-1 0 0 1 493 -133)"/>
+        <circle cx="558" cy="558" r="557.5" stroke="#FFC300" opacity=".1" transform="matrix(-1 0 0 1 583 -223)"/>
+        <g filter="url(#b)">
+            <ellipse cx="583" cy="229.5" fill="#FFC300" rx="583" ry="229.5" transform="matrix(-1 0 0 1 621 -9)"/>
+        </g>
+        <g filter="url(#c)">
+            <ellipse cx="262" cy="184.5" fill="#000000" rx="262" ry="184.5" transform="matrix(-1 0 0 1 99 42)"/>
+        </g>
+    </g>
+    <defs>
+        <!-- Definiciones del filtro y clipPath -->
+    </defs>
+</svg>

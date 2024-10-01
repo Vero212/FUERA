@@ -12,9 +12,15 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
+                    {{-- <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                        {{ __('Dashboarden Navidation') }}
+                    </x-nav-link> --}}
+
+                    <!-- Nueva pestaña Fuentes -->
+                    <x-nav-link :href="route('fuentes.index')" :active="request()->routeIs('fuentes.index')">
+                        {{ __('Fuentes') }}
+                    </x-nav-link>                    
+                    
                 </div>
             </div>
 
@@ -69,6 +75,10 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+            <!-- Nueva pestaña Alumnos -->
+            <x-responsive-nav-link :href="route('fuentes.index')" :active="request()->routeIs('fuentes.index')">
+                {{ __('Fuentes') }}
             </x-responsive-nav-link>
         </div>
 
