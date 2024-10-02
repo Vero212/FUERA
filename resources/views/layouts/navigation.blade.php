@@ -30,6 +30,11 @@
                     <x-nav-link :href="route('depositos.index')" :active="request()->routeIs('depositos.index')">
                         {{ __('Depósitos') }}
                     </x-nav-link> 
+
+                    <!-- Nueva pestaña Tipos -->
+                    <x-nav-link :href="route('tipos.index')" :active="request()->routeIs('tipos.index')">
+                        {{ __('Tipos') }}
+                    </x-nav-link> 
                     
                 </div>
             </div>

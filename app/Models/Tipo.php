@@ -5,7 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Tipos extends Model
+class Tipo extends Model
 {
     use HasFactory;
+    protected $fillable = ['nombre', 'desc', 'obs','activo'];
 }

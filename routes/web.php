@@ -2,9 +2,10 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\FuenteController; //importar el controlador FuenteController
-use App\Http\Controllers\GeometriaController; //importar el controlador GeometriaController
-use App\Http\Controllers\DepositoController; //importar el controlador GeometriaController
+use App\Http\Controllers\FuenteController; 
+use App\Http\Controllers\GeometriaController; 
+use App\Http\Controllers\DepositoController; 
+use App\Http\Controllers\TipoController; 
 
 
 Route::get('/', function () {
@@ -38,6 +39,14 @@ Route::post('/depositos', [DepositoController::class, 'store'])->name('depositos
 //Modificacion Geometria
 Route::get('depositos/{id}/edit', [DepositoController::class, 'edit'])->name('depositos.edit');
 Route::put('depositos/{id}', [DepositoController::class, 'update'])->name('depositos.update');
+
+//Rutas Tipos
+Route::resource('tipos',TipoController::class);
+Route::post('/tipos', [TipoController::class, 'store'])->name('tipos.store');
+//Modificacion Geometria
+Route::get('tipos/{id}/edit', [TipoController::class, 'edit'])->name('tipos.edit');
+Route::put('tipos/{id}', [TipoController::class, 'update'])->name('tipos.update');
+
 
 
 Route::resource('fuentes',FuenteController::class);
