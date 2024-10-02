@@ -41,31 +41,6 @@
 .fondo-radioisotopos{
     background-color:beige;
 }
-
-/* Bloques de cada Rad */
-/* .block1 {
-    border: 1px solid #ddd;
-    padding: 0;
-    
-    background-color:#B3E5FC;
-}
-
-.block2 {
-    border: 0 solid #ddd;
-    padding: 0;
-    
-    background-color:#81D4FA;
-}
-
-.block3 {
-    border: 0 solid #ddd;
-    padding: 0;    
-    background-color:#4FC3F7;
-} */
-
-
-
-
 </style>
 
 <x-app-layout>

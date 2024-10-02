@@ -16,10 +16,20 @@
                         {{ __('Dashboarden Navidation') }}
                     </x-nav-link> --}}
 
-                    <!-- Nueva pestaÒa Fuentes -->
+                    <!-- Nueva pestaÔøΩa Fuentes -->
                     <x-nav-link :href="route('fuentes.index')" :active="request()->routeIs('fuentes.index')">
                         {{ __('Fuentes') }}
-                    </x-nav-link>                    
+                    </x-nav-link>                 
+                    
+                    <!-- Nueva pestaÔøΩa Geometrias -->
+                    <x-nav-link :href="route('geometrias.index')" :active="request()->routeIs('geometrias.index')">
+                        {{ __('Geometrias/Soportes') }}
+                    </x-nav-link> 
+                    
+                    <!-- Nueva pesta√±a Depositos -->
+                    <x-nav-link :href="route('depositos.index')" :active="request()->routeIs('depositos.index')">
+                        {{ __('Dep√≥sitos') }}
+                    </x-nav-link> 
                     
                 </div>
             </div>
@@ -76,7 +86,7 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-            <!-- Nueva pestaÒa Alumnos -->
+            
             <x-responsive-nav-link :href="route('fuentes.index')" :active="request()->routeIs('fuentes.index')">
                 {{ __('Fuentes') }}
             </x-responsive-nav-link>

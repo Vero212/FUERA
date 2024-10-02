@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Models\Fuente; // Importar el modelo Fuente
+use App\Models\Geometria; // Importar el modelo Fuente
+use App\Models\Deposito; // Importar el modelo Fuente
 
 use Illuminate\Http\Request;
 
@@ -21,7 +23,12 @@ class FuenteController extends Controller
      */
     public function create()
     {
-        return view('fuentes.create');
+        // Obtener todas las geometrías
+        $geometrias = Geometria::all();
+        $depositos = Deposito::all();
+
+        // Pasar las geometrías y depositos a la vista
+        return view('fuentes.create', compact('geometrias','depositos'));
     }
 
     /**
@@ -41,7 +48,6 @@ class FuenteController extends Controller
         ]);
 
         Fuente::create($request->all());
-
         return redirect()->route('fuentes.index');
     }
 

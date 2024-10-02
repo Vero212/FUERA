@@ -2,7 +2,10 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\FuenteController; //importar el controlador AlumnoController
+use App\Http\Controllers\FuenteController; //importar el controlador FuenteController
+use App\Http\Controllers\GeometriaController; //importar el controlador GeometriaController
+use App\Http\Controllers\DepositoController; //importar el controlador GeometriaController
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -21,6 +24,21 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+//Rutas Geometria
+Route::resource('geometrias',GeometriaController::class);
+Route::post('/geometrias', [GeometriaController::class, 'store'])->name('geometrias.store');
+//Modificacion Geometria
+Route::get('geometrias/{id}/edit', [GeometriaController::class, 'edit'])->name('geometrias.edit');
+Route::put('geometrias/{id}', [GeometriaController::class, 'update'])->name('geometrias.update');
+
+//Rutas Depositos
+Route::resource('depositos',DepositoController::class);
+Route::post('/depositos', [DepositoController::class, 'store'])->name('depositos.store');
+//Modificacion Geometria
+Route::get('depositos/{id}/edit', [DepositoController::class, 'edit'])->name('depositos.edit');
+Route::put('depositos/{id}', [DepositoController::class, 'update'])->name('depositos.update');
+
 
 Route::resource('fuentes',FuenteController::class);
 
