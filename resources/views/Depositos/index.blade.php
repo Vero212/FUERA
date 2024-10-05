@@ -1,8 +1,20 @@
 <style>
-/* Asegurarse de que el hover solo se aplique a las filas de tbody */
-#depositosTable tbody tr:hover {
-        background-color: rgb(221, 211, 211) !important; /* Color de fondo al hacer hover */
-    }    
+    /* Aplica el efecto solo a las filas dentro de tbody */
+ #depositosTable tbody tr:hover {
+     background-color: #d4edda !important; /* Color verde claro */
+     color: #333; /* Cambia el color del texto (puedes modificarlo) */
+     font-size: 1.1em; /* Agranda la letra un poco */
+     font-weight: bold; /* Opcional: negrita para resaltar m醩 */
+     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra alrededor que da efecto 3D */
+     border-radius: 5px; /* Bordes redondeados para darle m醩 suavidad */
+     transform: scale(1.02); /* Efecto de agrandar ligeramente */
+     transition: all 0.3s ease; /* Suaviza el efecto de transici髇 */
+ }
+ 
+ /* Efecto de transici髇 suave para la fila */
+ #fuentesTable tbody tr {
+     transition: all 0.3s ease; /* Asegura una transici髇 suave en todos los cambios */
+ } 
 </style>
 
 <x-app-layout>
@@ -13,41 +25,24 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    
-                    <!-- Mensajes de 茅xito y error -->
-                    @if (session('success'))
-                     <div class="alert alert-success">
-                         {{ session('success') }}
-                     </div>
-                    @endif
-
-                    @if ($errors->any())
-                     <div class="alert alert-danger">
-                         <ul>
-                             @foreach ($errors->all() as $error)
-                                 <li>{{ $error }}</li>
-                             @endforeach
-                         </ul>
-                     </div>
-                    @endif
-
-                    <a href="{{ route('depositos.create') }}" class="btn btn-success mb-3">Agregar Dep贸sito</a>
-
-                    <!-- Grupo de entrada para b煤squeda -->
+        <div style="margin-left:3px">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <!-- Grupo de entrada para busqueda -->
                     <div class="input-group mb-3" style="width: 300px; float: right;">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="search-icon">
                                 <i class="fas fa-search"></i>
                             </span>
                         </div>
-                        <input type="text" id="searchBox" class="form-control" placeholder="Buscar dep贸sito..." aria-label="Buscar dep贸sito..." aria-describedby="search-icon">
+                        <input type="text" id="searchBox" class="form-control" 
+                        placeholder="Buscar dep贸sito..." aria-label="Buscar dep贸sito..." aria-describedby="search-icon">
                     </div>
 
-                    <table class="table table-striped table-hover table-bordered table-sm" style="font-size:14px" id="depositosTable">
-                        <thead class="table-dark small">
+                    <a href="{{ route('depositos.create') }}" class="btn btn-success mb-3">+ Agregar Dep贸sito</a>                    
+
+                    <table class="table table-striped table-hover table-bordered table-sm text-center" style="font-size:14px" id="depositosTable">
+                        <thead class="table-success  text-center sm">
                             <tr>
                                 <th>Nombre</th>
                                 <th>Descripci贸n</th>
@@ -63,8 +58,10 @@
                                 <td>{{ $deposito->desc }}</td>
                                 <td>{{ $deposito->obs }}</td>
                                 <td>{{ $deposito->activo == 1 ? 'SI' : 'NO' }}</td>
-                                <td>
-                                    <a href="{{ route('depositos.edit', $deposito->id) }}" class="btn btn-primary btn-sm">Editar</a>
+                                <td>                                    
+                                    <a href="{{ route('depositos.edit', $deposito->id) }}" 
+                                        class="btn btn-sm" title="Editar"><img src="{{ asset('img/iconos/editar3.png') }}"  
+                                        alt="Edit Icon"  style="width: 30px; height: 30px;" class="rounded-full me-2"></a>
                                 </td>
                             </tr>
                             @endforeach

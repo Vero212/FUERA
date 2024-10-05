@@ -1,8 +1,20 @@
 <style>
-/* Asegurarse de que el hover solo se aplique a las filas de tbody */
-#tiposTable tbody tr:hover {
-        background-color: rgb(221, 211, 211) !important; /* Color de fondo al hacer hover */
-    }    
+    /* Aplica el efecto solo a las filas dentro de tbody */
+ #tiposTable tbody tr:hover {
+     background-color: #d4edda !important; /* Color verde claro */
+     color: #333; /* Cambia el color del texto (puedes modificarlo) */
+     font-size: 1.1em; /* Agranda la letra un poco */
+     font-weight: bold; /* Opcional: negrita para resaltar más */
+     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra alrededor que da efecto 3D */
+     border-radius: 5px; /* Bordes redondeados para darle más suavidad */
+     transform: scale(1.02); /* Efecto de agrandar ligeramente */
+     transition: all 0.3s ease; /* Suaviza el efecto de transición */
+ }
+ 
+ /* Efecto de transición suave para la fila */
+ #fuentesTable tbody tr {
+     transition: all 0.3s ease; /* Asegura una transición suave en todos los cambios */
+ } 
 </style>
 
 <x-app-layout>
@@ -13,41 +25,25 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    
-                    <!-- Mensajes de Ã©xito y error -->
-                    @if (session('success'))
-                     <div class="alert alert-success">
-                         {{ session('success') }}
-                     </div>
-                    @endif
-
-                    @if ($errors->any())
-                     <div class="alert alert-danger">
-                         <ul>
-                             @foreach ($errors->all() as $error)
-                                 <li>{{ $error }}</li>
-                             @endforeach
-                         </ul>
-                     </div>
-                    @endif
-
-                    <a href="{{ route('tipos.create') }}" class="btn btn-success mb-3">Agregar Tipo</a>
-
-                    <!-- Grupo de entrada para bÃºsqueda -->
+        <div style="margin-left:3px">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <!-- Grupo de entrada para busqueda -->
                     <div class="input-group mb-3" style="width: 300px; float: right;">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="search-icon">
                                 <i class="fas fa-search"></i>
                             </span>
                         </div>
-                        <input type="text" id="searchBox" class="form-control" placeholder="Buscar Tipo..." aria-label="Buscar Tipo..." aria-describedby="search-icon">
+                        <input type="text" id="searchBox" class="form-control" 
+                        placeholder="Buscar Tipo..." aria-label="Buscar Tipo..." aria-describedby="search-icon">
                     </div>
 
-                    <table class="table table-striped table-hover table-bordered table-sm" style="font-size:14px" id="tiposTable">
-                        <thead class="table-dark small">
+
+                    <a href="{{ route('tipos.create') }}" class="btn btn-success mb-3">+ Agregar Tipo</a>                   
+
+                    <table class="table table-striped table-hover table-bordered table-sm text-center" style="font-size:14px" id="tiposTable">
+                        <thead class="table-success  text-center sm">
                             <tr>
                                 <th>Nombre</th>
                                 <th>DescripciÃ³n</th>
@@ -64,7 +60,9 @@
                                 <td>{{ $tipo->obs }}</td>
                                 <td>{{ $tipo->activo == 1 ? 'SI' : 'NO' }}</td>
                                 <td>
-                                    <a href="{{ route('tipos.edit', $tipo->id) }}" class="btn btn-primary btn-sm">Editar</a>
+                                    <a href="{{ route('tipos.edit', $tipo->id) }}" 
+                                        class="btn btn-sm" title="Editar"><img src="{{ asset('img/iconos/editar3.png') }}"  
+                                        alt="Edit Icon" style="width: 30px; height: 30px;" class="rounded-full me-2"></a>
                                 </td>
                             </tr>
                             @endforeach

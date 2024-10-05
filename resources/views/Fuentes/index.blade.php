@@ -1,8 +1,20 @@
 <style>
-    /* Asegurarse de que el hover solo se aplique a las filas de tbody */
-    #fuentesTable tbody tr:hover {
-        background-color: rgb(221, 211, 211) !important; /* Color de fondo al hacer hover */
-    }
+   /* Aplica el efecto solo a las filas dentro de tbody */
+#fuentesTable tbody tr:hover {
+    background-color: #d4edda !important; /* Color verde claro */
+    color: #333; /* Cambia el color del texto (puedes modificarlo) */
+    font-size: 1.1em; /* Agranda la letra un poco */
+    font-weight: bold; /* Opcional: negrita para resaltar mÃ¡s */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra alrededor que da efecto 3D */
+    border-radius: 5px; /* Bordes redondeados para darle mÃ¡s suavidad */
+    transform: scale(1.02); /* Efecto de agrandar ligeramente */
+    transition: all 0.3s ease; /* Suaviza el efecto de transiciÃ³n */
+}
+
+/* Efecto de transiciÃ³n suave para la fila */
+#fuentesTable tbody tr {
+    transition: all 0.3s ease; /* Asegura una transiciÃ³n suave en todos los cambios */
+}
     
     /* Clase personalizada para modal extra ancho */
     .modal-xl {
@@ -13,12 +25,12 @@
         border: 1px solid #6c757d; /* Color gris oscuro */
         padding: 2px; /* Espaciado interno */
         border-radius: 4px; /* Bordes redondeados */
-        background-color: rgba(255, 255, 255, 0.1); /* Fondo ligeramente más oscuro */
+        background-color: rgba(255, 255, 255, 0.1); /* Fondo ligeramente mÃ¡s oscuro */
 
-        height: 40px; /* Ajusta este valor según el tamaño que desees */
+        height: 40px; /* Ajusta este valor segÃºn el tamaÃ±o que desees */
         overflow: hidden;
         word-break: break-word; /* Evita que el contenido muy largo expanda */
-        white-space: nowrap; /* Mantiene el texto en una sola línea */
+        white-space: nowrap; /* Mantiene el texto en una sola lÃ­nea */
     }
 
     p{
@@ -26,13 +38,11 @@
     }
 
     .separador {
-        border-right: 2px solid #5585ce; /* Cambia el color y grosor del borde segÃºn tu necesidad */
-        padding-left: 10px; /* AÃ±adir espacio para que el texto no quede pegado a la lÃ­nea */
-        padding-right: 10px !important; /* AÃ±adir espacio para que el texto no quede pegado a la lÃ­nea */
-        box-sizing: border-box; /* Asegura que los paddings y borders estÃ©n incluidos en el ancho */
-    }
-
-   
+        border-right: 2px solid #5585ce; /* Cambia el color y grosor del borde segÃÂºn tu necesidad */
+        padding-left: 10px; /* AÃÂ±adir espacio para que el texto no quede pegado a la lÃÂ­nea */
+        padding-right: 10px !important; /* AÃÂ±adir espacio para que el texto no quede pegado a la lÃÂ­nea */
+        box-sizing: border-box; /* Asegura que los paddings y borders estÃÂ©n incluidos en el ancho */
+    }   
 
 </style>
 
@@ -54,7 +64,8 @@
                                 <i class="fas fa-search"></i>
                             </span>
                         </div>
-                        <input type="text" id="searchBox" class="form-control" placeholder="Buscar fuente..." aria-label="Buscar fuente..." aria-describedby="search-icon">
+                        <input type="text" id="searchBox" class="form-control" placeholder="Buscar fuente..." 
+                        aria-label="Buscar fuente..." aria-describedby="search-icon">
                     </div>
 
                     {{-- Valida que solo los Responsables Operativos puedan agregar fuentes --}}
@@ -81,13 +92,13 @@
                     @endif
                     @endif
 
-                    <table class="table table-striped table-hover table-bordered table-sm" id="fuentesTable">
-                        <thead class="table-dark small">
+                    <table class="table table-striped table-hover table-bordered table-sm text-center" id="fuentesTable">
+                        <thead class="table-success  text-center">
                             <tr>
-                                <th>Fuente</th><th>Clasif</th><th>Tipo</th><th>Geometria</th><th>Dimensiones</th>                                
-                                <th>RAD1</th><th>RAD2</th><th>RAD3</th><th>RAD4</th><th>RAD5</th><th>RAD6</th><th>RAD7</th><th>RAD8</th><th>RAD9</th>
-                                <th>RAD10</th><th>RAD11</th><th>RAD12</th>
-                                <th>Acción</th>
+                                <th>Fuente</th><th>Clasificación</th><th>Tipo</th><th>Geometrí­a</th><th>Dimensiones</th>                                
+                                <th>Rad1</th><th>Rad2</th><th>Rad3</th><th>Rad4</th><th>Rad5</th><th>Rad6</th><th>Rad7</th><th>Rad8</th><th>Rad9</th>
+                                <th>Rad10</th><th>Rad11</th><th>Rad12</th>
+                                <th>AcciÃ³n</th>
                             </tr>
                         </thead>
                         <tbody class="small">
@@ -98,7 +109,6 @@
                                     <td>{{ $fuente->Tipo_Fuente }}</td>                                    
                                     <td>{{ $fuente->Geometria_Soporte }}</td>
                                     <td>{{ $fuente->Dimensiones }}</td>                                    
-
                                     <td>{{ $fuente->Radionucleido_1 }}</td>
                                     <td>{{ $fuente->Radionucleido_2 }}</td>                                    
                                     <td>{{ $fuente->Radionucleido_3 }}</td>                                    
@@ -112,17 +122,17 @@
                                     <td>{{ $fuente->Radionucleido_11 }}</td>                                    
                                     <td>{{ $fuente->Radionucleido_12 }}</td>                                                                        
 
-                                    <!-- Botón para ver más detalles en un modal -->
+                                    <!-- BotÃ³n para ver mÃ¡s detalles en un modal -->
                                     <td>
                                         <button class="btn btn-sm" data-toggle="modal" data-target="#fuenteModal" 
                                                 data-fuente="{{ json_encode($fuente) }}" title="Ver detalles de la fuente">
-                                                <img src="{{ asset('img/iconos/Ver2.png') }}" alt="User Icon" class="w-6 h-6 rounded-full me-2">                                             
+                                                <img src="{{ asset('img/iconos/Ver2.png') }}" alt="Ver Icon" style="width: 30px; height: 30px;" class="rounded-full me-2">                                             
                                         </button>
 
                                     
                                         @if (auth()->user()->role === 1)
                                         <a href="{{ route('fuentes.edit', $fuente->id) }}" class="btn  btn-sm">
-                                            <img src="{{ asset('img/iconos/editar3.png') }}" alt="User Icon" class="w-6 h-6 rounded-full me-2">
+                                            <img src="{{ asset('img/iconos/editar3.png') }}" alt="Editar Icon" style="width: 30px; height: 30px;" class="rounded-full me-2">
                                         </a>                                        
                                         @endif
                                     </td>
@@ -155,11 +165,11 @@
                         <p id="modalTipo" class="bordered-field"></p>
                     </div>
                     <div class="col-md-2">
-                        <strong>Clasificación</strong>
+                        <strong>ClasificaciÃ³n</strong>
                         <p id="modalClasif" class="bordered-field"></p>
                     </div>
                     <div class="col-md-2">
-                        <strong>Geometría</strong>
+                        <strong>GeometrÃ­a</strong>
                         <p id="modalGeometria" class="bordered-field"></p>
                     </div>
                     <div class="col-md-2">
@@ -256,7 +266,7 @@
                         </div>
                 
                         @if ($i % 6 == 0)
-                            <div class="w-100"></div> <!-- Salto de lÃ­nea cada 6 campos -->
+                            <div class="w-100"></div> <!-- Salto de lÃÂ­nea cada 6 campos -->
                         @endif
                     @endfor
                 </div>                                                
@@ -268,7 +278,7 @@
     </div>
 </div>
 
-    <!-- JavaScript para la búsqueda -->
+    <!-- JavaScript para la bÃºsqueda -->
     <script>
         document.getElementById('searchBox').addEventListener('keyup', function() {
             var input = document.getElementById('searchBox');
@@ -312,6 +322,8 @@
             $('#modalDimensiones').text(fuente.Dimensiones);
 
             $('#modalRad1').text(fuente.Radionucleido_1);
+            //$('#modalActividad_Inicial_1').text(parseFloat(fuente.Actividad_Inicial_1).toFixed(10)); // CON 10 DECIMALES
+            //$('#modalActividad_Inicial_1').text(parseFloat(fuente.Actividad_Inicial_1).toExponential()); // NOTACION CIENFIFICA
             $('#modalActividad_Inicial_1').text(fuente.Actividad_Inicial_1);
             $('#modalTipo_Emision_1').text(fuente.Tipo_Emision_1);
             $('#modalSemiperiodo_1_dias').text(fuente.Semiperiodo_1_dias);
@@ -385,7 +397,68 @@
             $('#modalResponsable').text(fuente.Responsable);
             $('#modalMotivo_Baja').text(fuente.Motivo_Baja);
             $('#modalActividad_Calc').text(fuente.Actividad_Calc);
-            
-        });
+
+            // Realizar cálculo para el campo calculado
+            //levantar la fecha de referencia
+            //sacar la diferencia entre la fecha de referencia y el dia de hoy 
+            //ese resultado dividido lo q tenia en semiperiodo lo guarda en semi1 
+            //toma la actividad inicial y la multiplica acti = actini * (System.Math.Exp(-0.693 * (tiem / semi))) por la division de tiempo y semiperiodo 
+            //y ese es el resultado final
+ 
+            // Recorremos los 12 radionucleidos
+            for (var i = 1; i <= 12; i++) {
+    // Obtener los valores para cada radionucleido
+    var semi = fuente['Semiperiodo_' + i + '_dias']; // Semiperiodo en días
+    var actini = fuente['Actividad_Inicial_' + i]; // Actividad inicial
+    var fref = fuente['Fecha_Referencia_1']; // Fecha de referencia (misma para todos)
+
+    // Verificar si hay una fecha de referencia válida
+    if (fref && fref !== "12:00:00 a.m.") {
+        var hoy = new Date(); // Fecha de hoy
+        var fechaReferencia = new Date(fref); // Convertir la fecha de referencia a objeto Date
+
+        // Verificar si la fecha de referencia es válida
+        if (isNaN(fechaReferencia.getTime())) {
+            console.error("Fecha de referencia no válida:", fref);
+            $('#modalCalculada' + i).text("4");
+            continue; // Salir del bucle para este índice
+        }
+
+        // Calcular la diferencia en días entre la fecha de referencia y hoy
+        var tiem = Math.floor((hoy - fechaReferencia) / (1000 * 60 * 60 * 24)); // Diferencia en días
+
+        // Verificar que semi no sea cero
+        if (semi === 0) {            
+            console.error("Semiperiodo es cero para el radionucleido " + i);
+            $('#modalCalculada' + i).text("1");
+            continue; // Salir del bucle para este índice
+        }
+
+        // Calcular la fracción del semiperiodo que ha pasado
+        var semi1 = tiem / semi;
+
+        // Calcular la actividad usando la fórmula de desintegración radiactiva
+        if (isNaN(actini)) {           
+            console.error("Actividad inicial no válida:", actini);
+            $('#modalCalculada' + i).text("2");
+            continue; // Salir del bucle para este índice
+        }
+
+        var acti = actini * Math.exp(-0.693 * semi1); // Fórmula A(t) = A_0 * e^(-?t)
+
+        // Asignar el valor calculado al campo en el modal
+        $('#modalCalculada' + i).text(acti.toFixed(10)); // Redondea a 10 decimales
+
+        // Cambiar el color del fondo si han pasado más de 2 semiperiodos
+        if (semi1 > 2) {
+            $('#modalActividad_Inicial_' + i).css('background-color', 'yellow');
+        }
+    } else {
+        // Si no hay fecha de referencia válida, poner la actividad en 0
+        $('#modalCalculada' + i).text("3");
+    }
+}
+                    
+                });
     </script>
 </x-app-layout>
