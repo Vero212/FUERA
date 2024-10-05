@@ -1,19 +1,19 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Tipo;
+use App\Models\Unidad;
 use Illuminate\Http\Request;
 
 
-class TipoController extends Controller
+class UnidadController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $tipos =Tipo::all();
-        return view('tipos.index',compact('tipos'));
+        $unidades =Unidad::all();
+        return view('unidades.index',compact('unidades'));
     }
 
     /**
@@ -21,7 +21,7 @@ class TipoController extends Controller
      */
     public function create()
     {
-        return view('tipos.create');
+        return view('unidades.create');
     }
 
     /**
@@ -30,22 +30,21 @@ class TipoController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nombre' => 'required|string|max:255|unique:tipos,nombre', 
+            'nombre' => 'required|string|max:255|unique:unidades,nombre', 
             'desc' => 'nullable',
             'obs' => 'nullable',            
 
         ]);
 
         // Crear nuevo deposito
-            Tipo::create([
+            Unidad::create([
                 'nombre' => $request->nombre,
                 'desc' => $request->desc, 
                 'obs' => $request->obs,
                 'activo' => $request->activo,
             ]);
-        
-        // Redirigir a la lista de geometr�as con un mensaje de �xito
-            return redirect()->route('tipos.index')->with('success', 'Tipo agregado con Exito.');
+                
+            return redirect()->route('unidades.index')->with('success', 'Unidad agregado con Exito.');
     }
 
     /**
@@ -61,8 +60,8 @@ class TipoController extends Controller
      */
     public function edit(string $id)
     {
-        $tipo = Tipo::findOrFail($id);
-        return view('tipos.edit', compact('tipo'));
+        $unidad = Unidad::findOrFail($id);
+        return view('unidades.edit', compact('unidad'));
     }
 
     /**
@@ -71,18 +70,17 @@ class TipoController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'nombre' => 'required|string|max:255|unique:tipos,nombre,' . $id,
+            'nombre' => 'required|string|max:255|unique:unidades,nombre,' . $id,
             'desc' => 'nullable',
             'obs' => 'nullable',
             'activo' => 'required|boolean',
         ]);
     
-        // Actualizar deposito
-        $tipos = Tipo::findOrFail($id);
-        $tipos->update($request->all());
-    
-        // Redirigir a la lista con un mensaje de Ã©xito
-        return redirect()->route('tipos.index')->with('success', 'Tipo actualizado con Exito.');
+        // Actualizar unidad
+        $unidades = Unidad::findOrFail($id);
+        $unidades->update($request->all());
+            
+        return redirect()->route('unidades.index')->with('success', 'Unidad actualizado con Exito.');
     }
 
     /**

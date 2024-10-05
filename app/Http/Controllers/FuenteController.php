@@ -1,9 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Fuente; // Importar el modelo Fuente
-use App\Models\Geometria; // Importar el modelo Fuente
-use App\Models\Deposito; // Importar el modelo Fuente
+use App\Models\Fuente; 
+use App\Models\Geometria; 
+use App\Models\Deposito; 
+use App\Models\Tipo; 
+use App\Models\Unidad;
+use App\Models\Uso; 
+use App\Models\Emision; 
 
 use Illuminate\Http\Request;
 
@@ -26,9 +30,13 @@ class FuenteController extends Controller
         // Obtener todas las geometrías
         $geometrias = Geometria::all();
         $depositos = Deposito::all();
+        $tipos = Tipo::all();
+        $unidades = Unidad::all();
+        $usos = Uso::all();
+        $emisiones = Emision::all();
 
-        // Pasar las geometrías y depositos a la vista
-        return view('fuentes.create', compact('geometrias','depositos'));
+        // Pasar las geometrías,depositos y tipos a la vista
+        return view('fuentes.create', compact('geometrias','depositos','tipos','unidades','usos','emisiones'));
     }
 
     /**
@@ -37,18 +45,17 @@ class FuenteController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'Id_Fabricacion' => 'required|Id_Fabricacion|unique:fuentes',
-            'Clasificacion' => 'required',
-            'Fuente_Primaria_Origen' => 'required',
-            'Tipo_Fuente' => 'required',
-            'Geometria_Soporte' => 'required',
-            'Dimensiones' => 'required',
-            'Unidad_Actividad' => 'required'            
+            'Id_Fuente_Radiactiva' => 'required|unique:fuentes,Id_Fuente_Radiactiva', 
+            'Id_Fabricacion' => 'required|unique:fuentes,Id_Fabricacion', 
+            'Clasificacion' => 'required',            
+            'Tipo_Fuente' => 'required',                                    
+            'Estado_Fuente' => 'required',
+
 
         ]);
 
         Fuente::create($request->all());
-        return redirect()->route('fuentes.index');
+        return redirect()->route('fuentes.index')->with('success', 'Fuente creada correctamente.');
     }
 
     /**
@@ -64,7 +71,19 @@ class FuenteController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $fuente = Fuente::findOrFail($id);
+
+        // Obtener todas las tablas adicionales
+
+        $geometrias = Geometria::all();
+        $depositos = Deposito::all();
+        $tipos = Tipo::all();
+        $unidades = Unidad::all();
+        $usos = Uso::all();
+        $emisiones = Emision::all();
+
+        // Pasar las geometrías,depositos y tipos a la vista
+        return view('fuentes.edit', compact('fuente','geometrias','depositos','tipos','unidades','usos','emisiones'));        
     }
 
     /**
@@ -72,7 +91,18 @@ class FuenteController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            /* 'nombre' => 'required|string|max:255|unique:emisiones,nombre,' . $id,
+            'desc' => 'nullable',
+            'obs' => 'nullable',
+            'activa' => 'required|boolean', */
+        ]);
+    
+        // Actualizar unidad
+        $fuentes = Fuente::findOrFail($id);
+        $fuentes->update($request->all());
+            
+        return redirect()->route('fuentes.index')->with('success', 'Fuente actualizada con Exito.');
     }
 
     /**

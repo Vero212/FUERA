@@ -6,10 +6,10 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Editar Tipos') }}
+            {{ __('Editar Unidades') }}
         </h2>
     </x-slot>
-    {{-- {{ dd($tipo) }} --}}
+    {{-- {{ dd($unidad) }} --}}
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
@@ -25,27 +25,27 @@
                         </div>
                     @endif
 
-                    <form action="{{ route('tipos.update', $tipo->id) }}" method="POST">
+                    <form action="{{ route('unidades.update', $unidad->id) }}" method="POST">
                         @csrf
                         @method('PUT') <!-- Usamos PUT para la actualizaci�n -->
                         
                         <div class="form-group">
                             <label class="label-negrita" for="nombre">Nombre</label>
-                            <input type="text" name="nombre" class="form-control" value="{{ old('nombre', $tipo->nombre) }}" required>
+                            <input type="text" name="nombre" class="form-control" value="{{ old('nombre', $unidad->nombre) }}" required>
                         </div>
                         <div class="form-group">
                             <label class="label-negrita" for="desc">Descripción</label>
-                            <input type="text" name="desc" class="form-control" value="{{ old('desc', $tipo->desc) }}">
+                            <input type="text" name="desc" class="form-control" value="{{ old('desc', $unidad->desc) }}">
                         </div>
                         <div class="form-group">
                             <label class="label-negrita" for="obs">Observaciones</label>
-                            <input type="text" name="obs" class="form-control" value="{{ old('obs', $tipo->obs) }}">
+                            <input type="text" name="obs" class="form-control" value="{{ old('obs', $unidad->obs) }}">
                         </div>
                         <div class="form-group">
-                            <label class="label-negrita" for="activo">Activo</label>
-                            <select name="activo" id="activo" class="form-control">
-                                <option value="1" {{ $tipo->activo == 1 ? 'selected' : '' }}>Activo</option>
-                                <option value="0" {{ $tipo->activo == 0 ? 'selected' : '' }}>Inactivo</option>
+                            <label class="label-negrita" for="activa">Activo</label>
+                            <select name="activo" id="activa" class="form-control">
+                                <option value="1" {{ $unidad->activa == 1 ? 'selected' : '' }}>Activa</option>
+                                <option value="0" {{ $unidad->activa == 0 ? 'selected' : '' }}>Inactiva</option>
                             </select>
                         </div>
                         <button type="submit" class="btn btn-primary">Actualizar</button>

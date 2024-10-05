@@ -1,19 +1,19 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Tipo;
+use App\Models\Emision;
 use Illuminate\Http\Request;
 
 
-class TipoController extends Controller
+class EmisionController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $tipos =Tipo::all();
-        return view('tipos.index',compact('tipos'));
+        $emisiones =Emision::all();
+        return view('emisiones.index',compact('emisiones'));
     }
 
     /**
@@ -21,7 +21,7 @@ class TipoController extends Controller
      */
     public function create()
     {
-        return view('tipos.create');
+        return view('emisiones.create');
     }
 
     /**
@@ -30,22 +30,21 @@ class TipoController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nombre' => 'required|string|max:255|unique:tipos,nombre', 
+            'nombre' => 'required|string|max:255|unique:emisiones,nombre', 
             'desc' => 'nullable',
             'obs' => 'nullable',            
 
         ]);
 
         // Crear nuevo deposito
-            Tipo::create([
+            Emision::create([
                 'nombre' => $request->nombre,
                 'desc' => $request->desc, 
                 'obs' => $request->obs,
-                'activo' => $request->activo,
+                'activa' => $request->activa,
             ]);
-        
-        // Redirigir a la lista de geometr�as con un mensaje de �xito
-            return redirect()->route('tipos.index')->with('success', 'Tipo agregado con Exito.');
+                
+            return redirect()->route('emisiones.index')->with('success', 'Emision agregada con Exito.');
     }
 
     /**
@@ -61,8 +60,8 @@ class TipoController extends Controller
      */
     public function edit(string $id)
     {
-        $tipo = Tipo::findOrFail($id);
-        return view('tipos.edit', compact('tipo'));
+        $emision = Emision::findOrFail($id);
+        return view('emisiones.edit', compact('emision'));
     }
 
     /**
@@ -71,18 +70,17 @@ class TipoController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'nombre' => 'required|string|max:255|unique:tipos,nombre,' . $id,
+            'nombre' => 'required|string|max:255|unique:emisiones,nombre,' . $id,
             'desc' => 'nullable',
             'obs' => 'nullable',
-            'activo' => 'required|boolean',
+            'activa' => 'required|boolean',
         ]);
     
-        // Actualizar deposito
-        $tipos = Tipo::findOrFail($id);
-        $tipos->update($request->all());
-    
-        // Redirigir a la lista con un mensaje de Ã©xito
-        return redirect()->route('tipos.index')->with('success', 'Tipo actualizado con Exito.');
+        // Actualizar unidad
+        $emisiones = Emision::findOrFail($id);
+        $emisiones->update($request->all());
+            
+        return redirect()->route('emisiones.index')->with('success', 'Emision actualizada con Exito.');
     }
 
     /**

@@ -6,12 +6,12 @@
     
     /* Clase personalizada para modal extra ancho */
     .modal-xl {
-        max-width: 90% !important; /* Aumenta el ancho del modal a 90% de la ventana */
+        max-width: 80% !important; /* Aumenta el ancho del modal a 90% de la ventana */
     }
 
     .bordered-field {
         border: 1px solid #6c757d; /* Color gris oscuro */
-        padding: 10px; /* Espaciado interno */
+        padding: 2px; /* Espaciado interno */
         border-radius: 4px; /* Bordes redondeados */
         background-color: rgba(255, 255, 255, 0.1); /* Fondo ligeramente más oscuro */
 
@@ -26,27 +26,20 @@
     }
 
     .separador {
-    border-left: 2px solid #5585ce; /* Cambia el color y grosor del borde seg�n tu necesidad */
-    padding-left: 15px; /* A�adir espacio para que el texto no quede pegado a la l�nea */
-}
+        border-right: 2px solid #5585ce; /* Cambia el color y grosor del borde segÃºn tu necesidad */
+        padding-left: 10px; /* AÃ±adir espacio para que el texto no quede pegado a la lÃ­nea */
+        padding-right: 10px !important; /* AÃ±adir espacio para que el texto no quede pegado a la lÃ­nea */
+        box-sizing: border-box; /* Asegura que los paddings y borders estÃ©n incluidos en el ancho */
+    }
 
-    /* Bloques de cada Rad */
-.rad-block {
-    border: 1px solid #ddd;
-    padding: 10px;
-    margin-bottom: 20px;
-    background-color: #961b1b;
-}
+   
 
-.fondo-radioisotopos{
-    background-color:beige;
-}
 </style>
 
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Fuentes Radiactivas') }}
+            {{ __('Lista de Fuentes') }}
         </h2>
     </x-slot>
 
@@ -66,75 +59,35 @@
 
                     {{-- Valida que solo los Responsables Operativos puedan agregar fuentes --}}
                     @if (Auth::user()->role == 1)
+
                         <a href="{{ route('fuentes.create') }}" class="btn btn-success mb-3">
                             <i class="fas fa-plus"></i> Agregar Fuente
                         </a>
+                        <!-- Mensajes de Exito y error -->
+                        @if (session('success'))
+                        <div class="alert alert-success text-center">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     @endif
 
                     <table class="table table-striped table-hover table-bordered table-sm" id="fuentesTable">
                         <thead class="table-dark small">
                             <tr>
-                                <th>Fuente</th>                                                                
-                                <th>Clasif</th>
-                                <th>Tipo</th>
-                                <th>Geometria</th>
-                                <th>Dimensiones</th>                               
-
-                                
-                                
-                                <th>RAD1</th>
-                                    <th hidden>Actividad_Inicial_1</th>
-                                    <th hidden>Tipo_Emision_1</th>  
-                                    <th hidden>Semiperiodo_1_dias</th> 
-
-                                <th>RAD2</th>
-                                    <th hidden>Actividad_Inicial_2</th>
-                                    <th hidden>Tipo_Emision_2</th>  
-                                    <th hidden>Semiperiodo_2_dias</th> 
-
-                                <th>RAD3</th>
-                                    <th hidden>Actividad_Inicial_3</th>
-                                    <th hidden>Tipo_Emision_3</th>  
-                                    <th hidden>Semiperiodo_3_dias</th> 
-
-                                <th>RAD4</th>
-                                    <th hidden>Actividad_Inicial_4</th>
-                                    <th hidden>Tipo_Emision_4</th>  
-                                    <th hidden>Semiperiodo_4_dias</th> 
-
-                                <th>RAD5</th>
-                                    <th hidden>Actividad_Inicial_5</th>
-                                    <th hidden>Tipo_Emision_5</th>  
-                                    <th hidden>Semiperiodo_5_dias</th> 
-
-                                <th>RAD6</th>
-                                    <th hidden>Actividad_Inicial_6</th>
-                                    <th hidden>Tipo_Emision_6</th>  
-                                    <th hidden>Semiperiodo_6_dias</th> 
-
-                                <th>RAD7</th>
-                                    <th hidden>Actividad_Inicial_7</th>
-                                    <th hidden>Tipo_Emision_7</th>  
-                                    <th hidden>Semiperiodo_7_dias</th> 
-
-                                <th>RAD8</th>
-                                    <th hidden>Actividad_Inicial_8</th>
-                                    <th hidden>Tipo_Emision_8</th>  
-                                    <th hidden>Semiperiodo_8_dias</th> 
-
-                                <th>RAD9</th>
-                                    <th hidden>Actividad_Inicial_9</th>
-                                    <th hidden>Tipo_Emision_9</th>  
-                                    <th hidden>Semiperiodo_9_dias</th> 
-
-                                <th>RAD10</th>
-                                    <th hidden>Actividad_Inicial_10</th>
-                                    <th hidden>Tipo_Emision_10</th>  
-                                    <th hidden>Semiperiodo_10_dias</th> 
-
-                                <th>RAD11</th>
-                                <th>RAD12</th>
-                                <th>Acción</th> <!-- Nueva columna para acciones -->
+                                <th>Fuente</th><th>Clasif</th><th>Tipo</th><th>Geometria</th><th>Dimensiones</th>                                
+                                <th>RAD1</th><th>RAD2</th><th>RAD3</th><th>RAD4</th><th>RAD5</th><th>RAD6</th><th>RAD7</th><th>RAD8</th><th>RAD9</th>
+                                <th>RAD10</th><th>RAD11</th><th>RAD12</th>
+                                <th>Acción</th>
                             </tr>
                         </thead>
                         <tbody class="small">
@@ -142,96 +95,36 @@
                                 <tr>
                                     <td>{{ $fuente->Id_Fuente_Radiactiva }}</td>
                                     <td>{{ $fuente->Clasificacion }}</td>
-                                    <td>{{ $fuente->Tipo_Fuente }}</td>
-                                    {{-- <td hidden>{{ $fuente->Fuente_Primaria_Origen }}</td> --}}
+                                    <td>{{ $fuente->Tipo_Fuente }}</td>                                    
                                     <td>{{ $fuente->Geometria_Soporte }}</td>
-                                    <td>{{ $fuente->Dimensiones }}</td>
-
-                                    <td hidden>{{ $fuente->Unidad_Actividad }}</td>
+                                    <td>{{ $fuente->Dimensiones }}</td>                                    
 
                                     <td>{{ $fuente->Radionucleido_1 }}</td>
-                                    <td hidden>{{ $fuente->Actividad_Inicial_1 }}</td>
-                                    <td hidden>{{ $fuente->Tipo_Emision_1 }}</td>
-                                    <td hidden>{{ $fuente->Semiperiodo_1_dias }}</td>
-
-                                    <td>{{ $fuente->Radionucleido_2 }}</td>
-                                    <td hidden>{{ $fuente->Actividad_Inicial_2 }}</td>
-                                    <td hidden>{{ $fuente->Tipo_Emision_2 }}</td>
-                                    <td hidden>{{ $fuente->Semiperiodo_2_dias }}</td>
-
-                                    <td>{{ $fuente->Radionucleido_3 }}</td>
-                                    <td hidden>{{ $fuente->Actividad_Inicial_3 }}</td>
-                                    <td hidden>{{ $fuente->Tipo_Emision_3 }}</td>
-                                    <td hidden>{{ $fuente->Semiperiodo_3_dias }}</td>
-
-                                    <td>{{ $fuente->Radionucleido_4 }}</td>
-                                    <td hidden>{{ $fuente->Actividad_Inicial_4 }}</td>
-                                    <td hidden>{{ $fuente->Tipo_Emision_4 }}</td>
-                                    <td hidden>{{ $fuente->Semiperiodo_4_dias }}</td>
-
-                                    <td>{{ $fuente->Radionucleido_5 }}</td>
-                                    <td hidden>{{ $fuente->Actividad_Inicial_5 }}</td>
-                                    <td hidden>{{ $fuente->Tipo_Emision_5 }}</td>
-                                    <td hidden>{{ $fuente->Semiperiodo_5_dias }}</td>
-
-                                    <td>{{ $fuente->Radionucleido_6 }}</td>
-                                    <td hidden>{{ $fuente->Actividad_Inicial_6 }}</td>
-                                    <td hidden>{{ $fuente->Tipo_Emision_6 }}</td>
-                                    <td hidden>{{ $fuente->Semiperiodo_6_dias }}</td>
-
-                                    <td>{{ $fuente->Radionucleido_7 }}</td>
-                                    <td hidden>{{ $fuente->Actividad_Inicial_7 }}</td>
-                                    <td hidden>{{ $fuente->Tipo_Emision_7 }}</td>
-                                    <td hidden>{{ $fuente->Semiperiodo_7_dias }}</td>
-
-                                    <td>{{ $fuente->Radionucleido_8 }}</td>
-                                    <td hidden>{{ $fuente->Actividad_Inicial_8}}</td>
-                                    <td hidden>{{ $fuente->Tipo_Emision_8 }}</td>
-                                    <td hidden>{{ $fuente->Semiperiodo_8_dias }}</td>
-
-                                    <td>{{ $fuente->Radionucleido_9 }}</td>
-                                    <td hidden>{{ $fuente->Actividad_Inicial_9 }}</td>
-                                    <td hidden>{{ $fuente->Tipo_Emision_9 }}</td>
-                                    <td hidden>{{ $fuente->Semiperiodo_9_dias }}</td>
-
-                                    <td>{{ $fuente->Radionucleido_10 }}</td>
-                                    <td hidden>{{ $fuente->Actividad_Inicial_10 }}</td>
-                                    <td hidden>{{ $fuente->Tipo_Emision_10 }}</td>
-                                    <td hidden>{{ $fuente->Semiperiodo_10_dias }}</td>
-
-                                    <td>{{ $fuente->Radionucleido_11 }}</td>
-                                    <td hidden>{{ $fuente->Actividad_Inicial_11 }}</td>
-                                    <td hidden>{{ $fuente->Tipo_Emision_11 }}</td>
-                                    <td hidden>{{ $fuente->Semiperiodo_11_dias }}</td>
-
-                                    <td>{{ $fuente->Radionucleido_12 }}</td>
-                                    <td hidden>{{ $fuente->Actividad_Inicial_12 }}</td>
-                                    <td hidden>{{ $fuente->Tipo_Emision_12 }}</td>
-                                    <td hidden>{{ $fuente->Semiperiodo_12_dias }}</td>
-
-                                    <td hidden>{{ $fuente->Proveedor_Origen }}</td>
-                                    <td hidden>{{ $fuente->Uso_Origen }}</td>
-                                    <td hidden>{{ $fuente->Usuario_Principal }}</td>
-                                    <td hidden>{{ $fuente->Fecha_Referencia_1 }}</td>
-                                    <td hidden>{{ $fuente->Fecha_Referencia_2 }}</td>
-                                    <td hidden>{{ $fuente->Estado_Fuente }}</td>
-                                    <td hidden>{{ $fuente->Actividad_Corregida }}</td>
-                                    <td hidden>{{ $fuente->Fecha_Baja_Estimada }}</td>
-                                    <td hidden>{{ $fuente->Lugar_Deposito }}</td>
-                                    <td hidden>{{ $fuente->Estado }}</td>
-                                    <td hidden>{{ $fuente->Baja_Real }}</td>
-                                    <td hidden>{{ $fuente->Responsable }}</td>
-                                    <td hidden>{{ $fuente->Motivo_Baja }}</td>
-                                    <td hidden>{{ $fuente->Actividad_Calc }}</td>
-                                    <td hidden>{{ $fuente->Genera }}</td>
-                                    <td hidden>{{ $fuente->Modifica }}</td>
+                                    <td>{{ $fuente->Radionucleido_2 }}</td>                                    
+                                    <td>{{ $fuente->Radionucleido_3 }}</td>                                    
+                                    <td>{{ $fuente->Radionucleido_4 }}</td>                                    
+                                    <td>{{ $fuente->Radionucleido_5 }}</td>                            
+                                    <td>{{ $fuente->Radionucleido_6 }}</td>                                    
+                                    <td>{{ $fuente->Radionucleido_7 }}</td>                                    
+                                    <td>{{ $fuente->Radionucleido_8 }}</td>                                    
+                                    <td>{{ $fuente->Radionucleido_9 }}</td>                                    
+                                    <td>{{ $fuente->Radionucleido_10 }}</td>                                    
+                                    <td>{{ $fuente->Radionucleido_11 }}</td>                                    
+                                    <td>{{ $fuente->Radionucleido_12 }}</td>                                                                        
 
                                     <!-- Botón para ver más detalles en un modal -->
                                     <td>
-                                        <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#fuenteModal" 
-                                                data-fuente="{{ json_encode($fuente) }}">
-                                            Ver
+                                        <button class="btn btn-sm" data-toggle="modal" data-target="#fuenteModal" 
+                                                data-fuente="{{ json_encode($fuente) }}" title="Ver detalles de la fuente">
+                                                <img src="{{ asset('img/iconos/Ver2.png') }}" alt="User Icon" class="w-6 h-6 rounded-full me-2">                                             
                                         </button>
+
+                                    
+                                        @if (auth()->user()->role === 1)
+                                        <a href="{{ route('fuentes.edit', $fuente->id) }}" class="btn  btn-sm">
+                                            <img src="{{ asset('img/iconos/editar3.png') }}" alt="User Icon" class="w-6 h-6 rounded-full me-2">
+                                        </a>                                        
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
@@ -242,15 +135,14 @@
         </div>
     </div>
 
-   <!-- Modal para mostrar detalles completos de la fuente -->
+<!-- Modal para mostrar detalles completos de la fuente -->
+
 <div class="modal fade" id="fuenteModal" tabindex="-1" role="dialog" aria-labelledby="fuenteModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header bg-primary text-white">
                 <h5 class="modal-title" id="fuenteModalLabel">Detalles de la Fuente</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>                
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -276,7 +168,7 @@
                     </div>
                     <div class="col-md-2">
                         <strong>Estado:</strong>
-                        <p id="modalEstado" class="bordered-field"></p>
+                        <p id="modalEstado_Fuente" class="bordered-field"></p>
                     </div>
                 </div>
 
@@ -324,216 +216,53 @@
 
                 <hr style="border: 1px solid #5585ce;"> <!-- Divisor para separar las secciones -->
 
-
-                <div class="row rad-row">
-                    <div class="col-md-1">
-                        <strong>Radionucleido</strong>
-                        <p id="modalRad1" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-1">
-                        <strong>Act.Inicial</strong>
-                        <p id="modalActividad_Inicial_1" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-1">
-                        <strong>Actividad</strong>
-                        <p id="modalCalculada1" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-1" >
-                        <strong>Semiperiodo</strong>
-                        <p id="modalSemiperiodo_1_dias" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-2" >
-                        <strong>Tipo Emision</strong>
-                        <p id="modalTipo_Emision_1" class="bordered-field"></p>                        
-                    </div>
-                    
-                    <div class="col-md-1 separador">
-                        <strong>Radionucleido</strong>
-                        <p id="modalRad2" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-1 ">
-                        <strong>Act.Inicial</strong>
-                        <p id="modalActividad_Inicial_2" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-1 ">
-                        <strong>Actividad</strong>
-                        <p id="modalTipo_Emision_2" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-1 ">
-                        <strong>Semiperiodo</strong>
-                        <p id="modalSemiperiodo_2_dias" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-2 " >
-                        <strong>Tipo Emision</strong>
-                        <p id="modalTipo_Emision_2" class="bordered-field"></p>
-                    </div>
-                </div>
+                <!--Parte de detalle -->
+                <div class="row g-1">
+                    @for ($i = 1; $i <= 12; $i++)
+                        <div class="col-md-1 ">
+                            @if ($i <= 2) <!-- Mostrar los labels solo si $i es menor o igual a 2 -->
+                            <strong>Radionucleido</strong>
+                            @endif
+                            <p id="modalRad<?= $i ?>" class="bordered-field"></p>
+                        </div>
                 
-                <div class="row rad-row ">
-                    <div class="col-md-1 ">                        
-                        <p id="modalRad3" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-1 ">                        
-                        <p id="modalActividad_Inicial_3" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-1 ">                        
-                        <p id="modalTipo_Emision_3" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-1 ">
-                        <p id="modalSemiperiodo_3_dias" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-2 " >                        
-                        <p id="modalTipo_Emision_3" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-1 separador">                        
-                        <p id="modalRad4" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-1 ">                        
-                        <p id="modalActividad_Inicial_4" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-1 ">                        
-                        <p id="modalTipo_Emision_4" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-1 ">                        
-                        <p id="modalSemiperiodo_4_dias" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-2 " >                        
-                        <p id="modalTipo_Emision_4" class="bordered-field"></p>
-                    </div>
-                </div>
-
-                <div class="row rad-row ">
-                    <div class="col-md-1 ">                        
-                        <p id="modalRad5" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-1 ">                        
-                        <p id="modalActividad_Inicial_5" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-1 ">                        
-                        <p id="modalTipo_Emision_5" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-1 ">                        
-                        <p id="modalSemiperiodo_5_dias" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-2 ">                    
-                        <p id="modalTipo_Emision_5" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-1 separador">                        
-                        <p id="modalRad6" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-1 ">                        
-                        <p id="modalActividad_Inicial_6" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-1 ">                        
-                        <p id="modalTipo_Emision_6" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-1 ">                        
-                        <p id="modalSemiperiodo_6_dias" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-2" >                        
-                        <p id="modalTipo_Emision_4" class="bordered-field"></p>
-                    </div>
-                </div>
-
-
-                <div class="row rad-row ">
-                    <div class="col-md-1 ">                        
-                        <p id="modalRad7" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-1 ">                        
-                        <p id="modalActividad_Inicial_7" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-1 ">                        
-                        <p id="modalTipo_Emision_7" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-1 ">                        
-                        <p id="modalSemiperiodo_7_dias" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-2 " >                        
-                        <p id="modalTipo_Emision_7" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-1 separador">                        
-                        <p id="modalRad8" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-1">                        
-                        <p id="modalActividad_Inicial_8" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-1">                        
-                        <p id="modalTipo_Emision_8" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-1">                        
-                        <p id="modalSemiperiodo_8_dias" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-2 " >                        
-                        <p id="modalTipo_Emision_8" class="bordered-field"></p>
-                    </div>
-                </div>
-
-                <div class="row rad-row ">
-                    <div class="col-md-1 ">                    
-                        <p id="modalRad9" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-1 ">                        
-                        <p id="modalActividad_Inicial_9" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-1 ">                        
-                        <p id="modalTipo_Emision_9" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-1 ">                        
-                        <p id="modalSemiperiodo_9_dias" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-2 " >                        
-                        <p id="modalTipo_Emision_9" class="bordered-field"></p>
-                    </div>               
-                    <div class="col-md-1 separador">                        
-                        <p id="modalRad10" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-1">                        
-                        <p id="modalActividad_Inicial_10" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-1">                        
-                        <p id="modalTipo_Emision_10" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-1">                        
-                        <p id="modalSemiperiodo_10_dias" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-2 " >                        
-                        <p id="modalTipo_Emision_10" class="bordered-field"></p>
-                    </div>
-                </div>
-
-                <div class="row rad-row ">
-                    <div class="col-md-1 ">                        
-                        <p id="modalRad11" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-1 ">                        
-                        <p id="modalActividad_Inicial_11" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-1 ">                        
-                        <p id="modalTipo_Emision_11" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-1 ">                        
-                        <p id="modalSemiperiodo_11_dias" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-2 ">                        
-                        <p id="modalTipo_Emision_11" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-1 separador">                        
-                        <p id="modalRad12" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-1">                        
-                        <p id="modalActividad_Inicial_12" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-1">                        
-                        <p id="modalTipo_Emision_12" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-1">                        
-                        <p id="modalSemiperiodo_12_dias" class="bordered-field"></p>
-                    </div>
-                    <div class="col-md-2 " >                        
-                        <p id="modalTipo_Emision_12" class="bordered-field"></p>
-                    </div>
-                </div>
+                        <div class="col-md-1">
+                            @if ($i <= 2)
+                            <strong>Act.Ini</strong>
+                            @endif                                    
+                            <p id="modalActividad_Inicial_<?= $i ?>" class="bordered-field"></p>
+                        </div>
+                
+                        <div class="col-md-1">
+                            @if ($i <= 2)
+                            <strong>Actividad</strong>
+                            @endif
+                            <p id="modalCalculada<?= $i ?>" class="bordered-field"></p>                              
+                        </div>
+                
+                        <div class="col-md-1">
+                            @if ($i <= 2)
+                            <strong>Semiperiodo</strong>
+                            @endif
+                            <p id="modalSemiperiodo_<?= $i ?>_dias" class="bordered-field"></p>                                  
+                        </div>
+                
+                        <div class="col-md-2 @if ($i==1 or $i==3 or $i==5 or $i==7 or $i== 9 or $i== 11) separador @endif">
+                            @if ($i <= 2)
+                            <strong>Tipo Emision</strong>
+                            @endif                                    
+                            
+                            <p id="modalTipo_Emision_<?= $i ?>" class="bordered-field"></p>                                                                   
+                        </div>
+                
+                        @if ($i % 6 == 0)
+                            <div class="w-100"></div> <!-- Salto de lÃ­nea cada 6 campos -->
+                        @endif
+                    @endfor
+                </div>                                                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>                
             </div>
         </div>
     </div>
@@ -656,13 +385,7 @@
             $('#modalResponsable').text(fuente.Responsable);
             $('#modalMotivo_Baja').text(fuente.Motivo_Baja);
             $('#modalActividad_Calc').text(fuente.Actividad_Calc);
-
             
-
-
-
-
-            // Completa con el resto de los campos...
         });
     </script>
 </x-app-layout>
