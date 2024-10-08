@@ -35,7 +35,9 @@
                     <!-- Nueva pesta�a Fuentes -->
                     <x-nav-link :href="route('fuentes.index')" :active="request()->routeIs('fuentes.index')">
                         {{ __('Fuentes') }}
-                    </x-nav-link>                 
+                    </x-nav-link>
+                                        
+                                           
                     
                     @if (auth()->user()->role === 1)
                         <!-- Nueva pesta�a Geometrias -->

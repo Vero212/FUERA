@@ -8,8 +8,10 @@ use App\Models\Tipo;
 use App\Models\Unidad;
 use App\Models\Uso; 
 use App\Models\Emision; 
+use Barryvdh\DomPDF\Facade\Pdf; // Importa la Facade correctamente
 
 use Illuminate\Http\Request;
+
 
 class FuenteController extends Controller
 {
@@ -27,7 +29,7 @@ class FuenteController extends Controller
      */
     public function create()
     {
-        // Obtener todas las geometr�as
+        // Obtener todas las geometr�as
         $geometrias = Geometria::all();
         $depositos = Deposito::all();
         $tipos = Tipo::all();
@@ -35,7 +37,7 @@ class FuenteController extends Controller
         $usos = Uso::all();
         $emisiones = Emision::all();
 
-        // Pasar las geometr�as,depositos y tipos a la vista
+        // Pasar las geometr�as,depositos y tipos a la vista
         return view('fuentes.create', compact('geometrias','depositos','tipos','unidades','usos','emisiones'));
     }
 
@@ -82,7 +84,7 @@ class FuenteController extends Controller
         $usos = Uso::all();
         $emisiones = Emision::all();
 
-        // Pasar las geometr�as,depositos y tipos a la vista
+        // Pasar las geometr�as,depositos y tipos a la vista
         return view('fuentes.edit', compact('fuente','geometrias','depositos','tipos','unidades','usos','emisiones'));        
     }
 
@@ -112,4 +114,163 @@ class FuenteController extends Controller
     {
         //
     }
+
+    public function generarPDFPorFuente(Request $request)
+{
+    try {
+        // Obtener el valor del filtro
+        $letra = $request->input('filter');
+
+        // Manejar el caso en que no se proporciona una letra
+        if (empty($letra)) {
+            return response()->json(['message' => 'La letra es requerida'], 400);
+        }
+
+        // Consultar las fuentes que comiencen con esa letra
+        $fuentes = Fuente::where('Id_Fuente_Radiactiva', 'like', $letra . '%')->get();
+
+        // Verificar si se encontraron fuentes
+        if ($fuentes->isEmpty()) {
+            return response()->json(['message' => 'No se encontraron fuentes para la letra proporcionada.'], 404);
+        }
+
+        // Generar el PDF con la informaci�n
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('reportes.fuentes_pdf', compact('fuentes', 'letra'));
+        
+        // Habilitar la carga remota de im�genes
+        $pdf->set_option('isRemoteEnabled', true);
+
+        // Renderizar el PDF
+        $dompdf = $pdf->getDomPDF();
+        $dompdf->render();
+
+        // Agregar n�mero de p�gina en el pie de p�gina
+        $canvas = $dompdf->getCanvas();
+        $canvas->page_text(520, 820, "PÁgina {PAGE_NUM} de {PAGE_COUNT}", null, 10, array(0, 0, 0));
+
+        // Descargar el PDF
+        return $pdf->download('fuentes_por_letra.pdf');
+        
+    } catch (\Exception $e) {
+        return response()->json(['message' => 'Error al generar el PDF: ' . $e->getMessage()], 500);
+    }
+}
+
+public function exportarCSV(Request $request)
+    {
+        try {
+            $letra = $request->input('filter');
+
+            if (empty($letra)) {
+                return response()->json(['message' => 'La letra es requerida'], 400);
+            }
+
+            $fuentes = Fuente::where('Id_Fuente_Radiactiva', 'like', $letra . '%')->get();
+
+            if ($fuentes->isEmpty()) {
+                return response()->json(['message' => 'No se encontraron fuentes para la letra proporcionada.'], 404);
+            }
+
+            $filename = "fuentes_por_letra.csv";
+
+            $callback = function() use ($fuentes) {
+                $file = fopen('php://output', 'w');
+                fputcsv($file, ['FUENTE', 'IDENTIFICACION', 'RADIO PRINCIPAL', 'Tipo_Emision_1', 'Actividad', 'Lugar de Depósito']);
+
+                foreach ($fuentes as $fuente) {
+                    fputcsv($file, [
+                        $fuente->Id_Fuente_Radiactiva,
+                        $fuente->Id_Fabricacion,
+                        $fuente->Radionucleido_1,
+                        $fuente->Tipo_Emision_1,
+                        $fuente->Actividad_Inicial_1,
+                        $fuente->Lugar_Deposito
+                    ]);
+                }
+                fclose($file);
+            };
+
+            return response()->stream($callback, 200, [
+                "Content-Type" => "text/csv",
+                "Content-Disposition" => "attachment; filename=$filename",
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Error al generar el CSV: ' . $e->getMessage()], 500);
+        }
+    }
+
+    // Bajas
+public function generarPDFBajas(Request $request)
+{
+    try {
+        // Filtrar las fuentes que tienen el estado 'BAJA'
+        $fuentes = Fuente::where('Estado_Fuente', 'BAJA')->get();
+
+        if ($fuentes->isEmpty()) {
+            return response()->json(['message' => 'No se encontraron fuentes con el estado BAJA.'], 404);
+        }
+
+        // Generar el PDF con la información
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('reportes.fuentesBaja_pdf', compact('fuentes'));
+        
+        // Habilitar la carga remota de imágenes
+        $pdf->setOptions(['isRemoteEnabled' => true]);
+
+        // Renderizar el PDF
+        $dompdf = $pdf->getDomPDF();
+        $dompdf->render();
+
+        // Agregar número de página en el pie de página
+        $canvas = $dompdf->getCanvas();
+        $canvas->page_text(520, 820, "Página {PAGE_NUM} de {PAGE_COUNT}", null, 10, array(0, 0, 0));
+
+        // Descargar el PDF
+        return $pdf->download('fuentes_de_baja.pdf');
+        
+    } catch (\Exception $e) {
+        return response()->json(['message' => 'Error al generar el PDF: ' . $e->getMessage()], 500);
+    }
+}
+
+public function exportarCSVBajas(Request $request)
+    {
+        try {
+           
+             // Filtrar las fuentes que tienen el estado 'BAJA'
+        $fuentes = Fuente::where('Estado_Fuente', 'BAJA')->get();
+
+        if ($fuentes->isEmpty()) {
+            return response()->json(['message' => 'No se encontraron fuentes con el estado BAJA.'], 404);
+        }
+
+            $filename = "fuentes_de_baja.csv";
+
+            $callback = function() use ($fuentes) {
+                $file = fopen('php://output', 'w');
+                fputcsv($file, ['FUENTE', 'IDENTIFICACION', 'RADIO PRINCIPAL', 'TIPO RADIO', 'ACTIVIDAD', 'LUGAR/DEPOSITO']);
+
+                foreach ($fuentes as $fuente) {
+                    fputcsv($file, [
+                        $fuente->Id_Fuente_Radiactiva,
+                        $fuente->Id_Fabricacion,
+                        $fuente->Radionucleido_1,
+                        $fuente->Tipo_Emision_1,
+                        $fuente->Actividad_Inicial_1,
+                        $fuente->Lugar_Deposito
+                    ]);
+                }
+                fclose($file);
+            };
+
+            return response()->stream($callback, 200, [
+                "Content-Type" => "text/csv",
+                "Content-Disposition" => "attachment; filename=$filename",
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Error al generar el CSV: ' . $e->getMessage()], 500);
+        }
+    }
+
+
+  
 }

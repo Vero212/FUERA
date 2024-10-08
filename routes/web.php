@@ -85,8 +85,15 @@ Route::post('/usos', [UsoController::class, 'store'])->name('usos.store');
 Route::get('usos/{id}/edit', [UsoController::class, 'edit'])->name('usos.edit');
 Route::put('usos/{id}', [UsoController::class, 'update'])->name('usos.update');
 
+//Generacion de PDF - por letra
+Route::post('/fuentes/pdf', [FuenteController::class, 'generarPDFPorFuente'])->name('fuentes.pdf');
+//Exportacion a Excel
+Route::post('/fuentes/exportar-csv', [FuenteController::class, 'exportarCSV'])->name('fuentes.exportar.csv');
 
-
+//Generacion de PDF - Bajas
+Route::post('/fuentesbaja/pdf', [FuenteController::class, 'generarPDFBajas'])->name('fuentesbaja.pdf');
+//Exportacion a Excel Bajas
+Route::post('/fuentesbajas/exportar-csv', [FuenteController::class, 'exportarCSVBajas'])->name('fuentesbajas.exportar.csv');
 
 
 

@@ -45,35 +45,92 @@
     }   
 
 </style>
-
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('Lista de Fuentes') }}
         </h2>
-    </x-slot>
-
+    </x-slot>    
     <div class="py-12">
+        
         <div style="margin-left:3px">
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <!-- Grupo de entrada para busqueda -->
-                    <div class="input-group mb-3" style="width: 300px; float: right;">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="search-icon">
-                                <i class="fas fa-search"></i>
-                            </span>
+
+                    <div class="row mb-3 align-items-center text-center" style="display: flex;">                                               
+                            {{-- Botï¿½n de agregar fuentes a la izquierda --}}
+                            @if (Auth::user()->role == 1)
+                                <div class="col-md-3">
+                                    <a href="{{ route('fuentes.create') }}" class="btn btn-success">
+                                        <i class="fas fa-plus"></i> Agregar Fuente
+                                    </a>
+                                    <a href="{{ route('fuentes.create') }}" class="btn btn-success">
+                                        <i class="fas fa-plus"></i> Bajas (hacer)
+                                    </a>
+                                </div>
+                            @endif
+    
+                        <!-- Secciï¿½n central: Reportes (mï¿½s espacio) con borde -->
+                    <div class="col-md-6 d-flex justify-content-center" style="border: 1px solid #ddd; padding: 10px; border-radius: 5px;">
+                            <div style="width: 100%;">
+                                {{-- <span class="font-weight-bold">Reportes</span> --}}
+                                <div class="d-flex mt-2 justify-content-between" style="gap: 15px;">
+                                    <!-- Subsecciï¿½n: Por Fuente -->
+                                    <div>
+                                        <span>Letra:</span>
+                                        <div class="input-group" style="width: 100px; display: inline-block;" >
+                                            <input type="text" id="filterBox" class="form-control" placeholder="Filtrar" style="width:80px;height:40px">
+                                        </div>
+
+                                        {{-- PDF POR numero de fuente --}}
+                                        <button class="btn btn-light" id="btnExportPDF" onclick="generarPDF()" title="PDF por NÃºmero de Fuente">
+                                            <i class="fas fa-file-pdf fa-2X" style="color: red;"></i>
+                                        </button>     
+                                        
+                                        {{-- EXCEL por numero de fuente --}}
+                                        <button class="btn btn-light ml-1" id="btnExportExcel" onclick="generarCSV()">
+                                            <i class="fas fa-file-excel fa-2X" style="color: green;"></i>
+                                        </button>
+                                    </div>
+    
+                                    <!-- Subseccion: Dadas de Baja -->
+                                    <div>
+                                        <span>Dadas de Baja</span>
+                                        <button class="btn btn-light ml-1" id="btnBajasPDF" onclick="generarPDFBajas()">
+                                            <i class="fas fa-file-pdf fa-2X" style="color: red;"></i>
+                                        </button>
+                                        <button class="btn btn-light ml-1" id="btnBajasExcel" onclick="generarCSVBajas()">
+                                            <i class="fas fa-file-excel fa-2X" style="color: green;"></i>
+                                        </button>
+                                    </div>
+    
+                                    <!-- Subsecciï¿½n: Uso Condicional -->
+                                    <div>
+                                        <span>Uso Condicional(Ver):</span>
+                                        <button class="btn btn-light ml-1" id="btnCondicionalPDF">
+                                            <i class="fas fa-file-pdf fa-2X" style="color: red;"></i>
+                                        </button>
+                                        <button class="btn btn-light ml-1" id="btnCondicionalExcel">
+                                            <i class="fas fa-file-excel fa-2X" style="color: green;"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <input type="text" id="searchBox" class="form-control" placeholder="Buscar fuente..." 
-                        aria-label="Buscar fuente..." aria-describedby="search-icon">
-                    </div>
+    
+                        <!-- Secciï¿½n derecha: Campo de bï¿½squeda (menor espacio) -->
+                        <div class="col-md-2 d-flex justify-content-end">
+                            <div class="input-group" style="width: 200px;">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="search-icon">
+                                        <i class="fas fa-search"></i>
+                                    </span>
+                                </div>
+                                <input type="text" id="searchBox" class="form-control" placeholder="Buscar..." aria-label="Buscar..." aria-describedby="search-icon">
+                            </div>
+                        </div>
+                    </div>                    
 
-                    {{-- Valida que solo los Responsables Operativos puedan agregar fuentes --}}
-                    @if (Auth::user()->role == 1)
-
-                        <a href="{{ route('fuentes.create') }}" class="btn btn-success mb-3">
-                            <i class="fas fa-plus"></i> Agregar Fuente
-                        </a>
                         <!-- Mensajes de Exito y error -->
                         @if (session('success'))
                         <div class="alert alert-success text-center">
@@ -89,8 +146,7 @@
                                 @endforeach
                             </ul>
                         </div>
-                    @endif
-                    @endif
+                    @endif                   
 
                     <table class="table table-striped table-hover table-bordered table-sm text-center" id="fuentesTable">
                         <thead class="table-success  text-center">
@@ -140,6 +196,8 @@
                             @endforeach
                         </tbody>
                     </table>
+
+                    
                 </div>
             </div>
         </div>
@@ -460,5 +518,146 @@
 }
                     
                 });
-    </script>
+</script>
+<script>
+    function generarPDF() {
+        const letra = document.getElementById('filterBox').value; // Obtener el valor del filtro
+       
+        const url = `{{ route('fuentes.pdf') }}`; // Cambia esto segï¿½n tu ruta definida
+
+        // Hacer una solicitud POST para generar el PDF
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}', // Asegï¿½rate de incluir el token CSRF
+            },
+            body: JSON.stringify({ filter: letra })
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.blob();
+            }
+            throw new Error('Error al generar el PDF');
+        })
+        .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'fuentes_por_letra.pdf'; // Nombre del archivo descargado
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        })
+        .catch(error => {
+            console.error(error);
+        });
+    }
+
+    function generarCSV() {
+        const letra = document.getElementById('filterBox').value; // Obtener el valor del filtro
+       
+        const url = `{{ route('fuentes.exportar.csv') }}`; // Asegúrate de que la ruta es correcta
+
+        // Hacer una solicitud POST para generar el CSV
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}', // Asegúrate de incluir el token CSRF
+            },
+            body: JSON.stringify({ filter: letra })
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.blob(); // Obtener el archivo como blob
+            }
+            throw new Error('Error al generar el CSV');
+        })
+        .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'fuentes_por_letra.csv'; // Nombre del archivo descargado
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        })
+        .catch(error => {
+            console.error(error);
+        });
+    }
+
+    //Bajas
+    function generarPDFBajas() {
+        const letra = document.getElementById('filterBox').value; // Obtener el valor del filtro
+       
+        const url = `{{ route('fuentesbaja.pdf') }}`; // Cambia esto segï¿½n tu ruta definida
+
+        // Hacer una solicitud POST para generar el PDF
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}', // Asegï¿½rate de incluir el token CSRF
+            },
+            body: JSON.stringify({ filter: letra })
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.blob();
+            }
+            throw new Error('Error al generar el PDF');
+        })
+        .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'fuentes_de_baja.pdf'; // Nombre del archivo descargado
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        })
+        .catch(error => {
+            console.error(error);
+        });
+    }
+
+    function generarCSVBajas() {
+        const letra = document.getElementById('filterBox').value; // Obtener el valor del filtro
+       
+        const url = `{{ route('fuentesbajas.exportar.csv') }}`; // Asegúrate de que la ruta es correcta
+
+        // Hacer una solicitud POST para generar el CSV
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}', // Asegúrate de incluir el token CSRF
+            },
+            body: JSON.stringify({ filter: letra })
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.blob(); // Obtener el archivo como blob
+            }
+            throw new Error('Error al generar el CSV');
+        })
+        .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'fuentes_de_baja.csv'; // Nombre del archivo descargado
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        })
+        .catch(error => {
+            console.error(error);
+        });
+    }
+
+    
+</script>
+
 </x-app-layout>
