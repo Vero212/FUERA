@@ -15,14 +15,26 @@ use Illuminate\Http\Request;
 
 class FuenteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    
     public function index()
-    {
-        $fuentes = Fuente::all();
-        return view('fuentes.index',compact('fuentes'));
-    }
+{
+    // Obtener todas las fuentes
+    $fuentes = Fuente::all();
+
+    // Total de fuentes activas
+    $totalActivas = Fuente::where('Estado_Fuente', 'Act')->count();
+
+    // Total de fuentes de baja
+    $totalBajas = Fuente::where('Estado_Fuente', 'Baja')->count();
+
+    // Total de fuentes que empiezan con A, B o C
+    $totalA = Fuente::where('Id_Fuente_Radiactiva', 'like', 'A%')->count();
+    $totalB = Fuente::where('Id_Fuente_Radiactiva', 'like', 'B%')->count();
+    $totalC = Fuente::where('Id_Fuente_Radiactiva', 'like', 'C%')->count();
+
+    // Pasar los datos a la vista
+    return view('fuentes.index', compact('fuentes', 'totalActivas', 'totalBajas', 'totalA', 'totalB', 'totalC'));
+}
 
     /**
      * Show the form for creating a new resource.
@@ -68,15 +80,12 @@ class FuenteController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
+    
+    public function edit(string $id, Request $request)
+{
         $fuente = Fuente::findOrFail($id);
 
         // Obtener todas las tablas adicionales
-
         $geometrias = Geometria::all();
         $depositos = Deposito::all();
         $tipos = Tipo::all();
@@ -84,9 +93,12 @@ class FuenteController extends Controller
         $usos = Uso::all();
         $emisiones = Emision::all();
 
-        // Pasar las geometr�as,depositos y tipos a la vista
-        return view('fuentes.edit', compact('fuente','geometrias','depositos','tipos','unidades','usos','emisiones'));        
-    }
+        // Obtener el parámetro 'modo' para determinar si es edición o baja
+        $modo = $request->input('modo', 'edicion'); // 'edicion' es el valor predeterminado
+
+        // Pasar las variables y el modo a la vista
+        return view('fuentes.edit', compact('fuente', 'geometrias', 'depositos', 'tipos', 'unidades', 'usos', 'emisiones', 'modo'));
+}
 
     /**
      * Update the specified resource in storage.

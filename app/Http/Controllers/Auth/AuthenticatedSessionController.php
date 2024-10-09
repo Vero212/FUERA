@@ -28,8 +28,13 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        if (Auth::attempt($request->only('email', 'password'))) {
+            return redirect()->intended('/panel'); // Redirigir a la vista del panel
+        }
+
         // return redirect()->intended(route('dashboard', absolute: false));
-        return redirect()->intended('/fuentes');
+        //return redirect()->intended('/fuentes');
+        //return redirect()->intended('/panel');
     }
 
     /**

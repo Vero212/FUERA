@@ -1,6 +1,6 @@
 <style>
     .header h1 {
-        font-size: 20px;
+        font-size: 30px;
         background: linear-gradient(90deg, yellow, black);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -22,16 +22,21 @@
         <div class="flex items-center justify-between h-16">
            
              <!-- Logo y Título alineados a la izquierda -->
-             <div class="flex items-center header pl-0 me-auto">
-                
-                <img src="{{ asset('img/iconos/radiacion.png') }}" class="w-6 h-6 rounded-full" style="margin-left:10px">&nbsp;<h1>Fuentes Radiactivas</h1>
+             <div class="flex items-center header pl-0 me-auto">  
+                <img src="{{ asset('img/iconos/radiacion.png') }}" class="rounded-full" style="width: 40px; height: 40px; margin-left:10px;">              
+                {{-- <img src="{{ asset('img/iconos/radiacion.png') }}" class="w-6 h-6 rounded-full" style="margin-left:10px"> --}}
+                &nbsp;<h1>Fuentes Radiactivas</h1>
             </div>
 
             
 
             <div class="flex justify-center flex-grow">
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:flex">                    
+                <div class="hidden space-x-8 sm:flex">
+                    
+                    <x-nav-link :href="route('panel.index')" :active="request()->routeIs('panel.index')">
+                        {{ __('Resumen') }}
+                    </x-nav-link>
                     <!-- Nueva pestaï¿½a Fuentes -->
                     <x-nav-link :href="route('fuentes.index')" :active="request()->routeIs('fuentes.index')">
                         {{ __('Fuentes') }}

@@ -20,11 +20,14 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Lista de Tipos') }}
+            &nbsp;
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-3">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight text-center">
+            {{ __('Lista de Tipos') }}
+        </h2>
         <div style="margin-left:3px">
             <div class="card shadow-sm">
                 <div class="card-body">

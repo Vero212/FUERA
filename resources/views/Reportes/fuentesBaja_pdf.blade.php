@@ -72,22 +72,22 @@
         <thead>
             <tr>
                 <th>FUENTE</th>
-                <th>IDENTIFICACION</th>
-                <th>RADIO PRINCIPAL</th>
-                <th>TIPO RADIO</th>
-                <th>ACTIVIDAD</th>
-                <th>LUGAR/DEPOSITO</th>
+                <th>CLASIFIC</th>
+                <th>GEOMETRIA</th>
+                <th>TIPO</th>
+                <th>RADIONUC</th>
+                <th>FECHA BAJA</th>
             </tr>
         </thead>
         <tbody>
             @foreach($fuentes as $fuente)
             <tr>
                 <td>{{ $fuente->Id_Fuente_Radiactiva }}</td>
-                <td>{{ $fuente->Id_Fabricacion }}</td>
-                <td>{{ $fuente->Radionucleido_1 }}</td>
+                <td>{{ $fuente->Clasificacion }}</td>
+                <td>{{ $fuente->Geometria_Soporte }}</td>
                 <td>{{ $fuente->Tipo_Emision_1 }}</td>
-                <td>{{ $fuente->Actividad_Inicial_1 }}</td>
-                <td>{{ $fuente->Lugar_Deposito }}</td>
+                <td>{{ $fuente->Radionucleido_1 }}</td>
+                <td>{{ $fuente->Baja_Real }}</td>
             </tr>
             @endforeach
         </tbody>

@@ -48,7 +48,11 @@
                                 <option value="0" {{ $geometria->activa == 0 ? 'selected' : '' }}>Inactiva</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-primary">Actualizar</button>
+                        <div class="col-md-12">                            
+                            <button type="submit" class="btn btn-primary mt-3">Actualizar</button>
+                                                
+                            <a href="{{ route('geometrias.index') }}" class="btn btn-secondary mt-3 ms-3">Cancelar</a>
+                        </div> 
                     </form>
                 </div>
             </div>

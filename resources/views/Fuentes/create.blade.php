@@ -245,12 +245,13 @@
                                 @endif
                             @endfor
                         </div>
-    
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-12">                                
                                 <button type="submit" class="btn btn-primary mt-3">Guardar</button>
+                                                        
+                                <a href="{{ route('fuentes.index') }}" class="btn btn-secondary mt-3 ms-3">Cancelar</a>
                             </div>
-                        </div>
+                        </div>                       
                     </form>
                 </div>
             </div>

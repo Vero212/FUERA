@@ -48,7 +48,11 @@
                                 <option value="0" {{ $tipo->activo == 0 ? 'selected' : '' }}>Inactivo</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-primary">Actualizar</button>
+                        <div class="col-md-12">                            
+                            <button type="submit" class="btn btn-primary mt-3">Actualizar</button>
+                                                
+                            <a href="{{ route('tipos.index') }}" class="btn btn-secondary mt-3 ms-3">Cancelar</a>
+                        </div> 
                     </form>
                 </div>
             </div>

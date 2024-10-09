@@ -41,7 +41,11 @@
                                 <option value="0">Inactivo</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-primary">Agregar</button>
+                        <div class="col-md-12">                            
+                            <button type="submit" class="btn btn-primary mt-3">Agregarr</button>
+                                                
+                            <a href="{{ route('emisiones.index') }}" class="btn btn-secondary mt-3 ms-3">Cancelar</a>
+                        </div> 
                     </form>
                 </div>
             </div>

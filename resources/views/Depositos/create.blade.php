@@ -41,7 +41,14 @@
                                 <option value="0">Inactivo</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-primary">Agregar</button>
+                        
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">                                
+                                <button type="submit" class="btn btn-primary mt-3">Agregar</button>
+                                                        
+                                <a href="{{ route('depositos.index') }}" class="btn btn-secondary mt-3 ms-3">Cancelar</a>
+                            </div>                        
                     </form>
                 </div>
             </div>

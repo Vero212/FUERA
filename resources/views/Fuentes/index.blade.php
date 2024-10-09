@@ -43,35 +43,34 @@
         padding-right: 10px !important; /* AÃÂ±adir espacio para que el texto no quede pegado a la lÃÂ­nea */
         box-sizing: border-box; /* Asegura que los paddings y borders estÃÂ©n incluidos en el ancho */
     }   
-
+    
 </style>
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight text-center">
+            &nbsp;
+        </h2>        
+    </x-slot>  
+    <div class="py-3">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight text-center">
             {{ __('Lista de Fuentes') }}
-        </h2>
-    </x-slot>    
-    <div class="py-12">
-        
-        <div style="margin-left:3px">
+        </h2>             
             <div class="card shadow-sm">
                 <div class="card-body">
 
-                    <div class="row mb-3 align-items-center text-center" style="display: flex;">                                               
+                    <div class="row mb-3 align-items-center text-left" style="display: flex;">                                               
                             {{-- Bot�n de agregar fuentes a la izquierda --}}
                             @if (Auth::user()->role == 1)
                                 <div class="col-md-3">
-                                    <a href="{{ route('fuentes.create') }}" class="btn btn-success">
+                                    <a href="{{ route('fuentes.create') }}" class="btn btn-success mb-3">
                                         <i class="fas fa-plus"></i> Agregar Fuente
-                                    </a>
-                                    <a href="{{ route('fuentes.create') }}" class="btn btn-success">
-                                        <i class="fas fa-plus"></i> Bajas (hacer)
-                                    </a>
+                                    </a>                                   
                                 </div>
                             @endif
+                            
     
                         <!-- Secci�n central: Reportes (m�s espacio) con borde -->
-                    <div class="col-md-6 d-flex justify-content-center" style="border: 1px solid #ddd; padding: 10px; border-radius: 5px;">
+                    <div class="col-md-6 d-flex justify-content-center" style=" #ddd; padding: 10px; border-radius: 5px;">
                             <div style="width: 100%;">
                                 {{-- <span class="font-weight-bold">Reportes</span> --}}
                                 <div class="d-flex mt-2 justify-content-between" style="gap: 15px;">
@@ -154,7 +153,7 @@
                                 <th>Fuente</th><th>Clasificación</th><th>Tipo</th><th>Geometrí­a</th><th>Dimensiones</th>                                
                                 <th>Rad1</th><th>Rad2</th><th>Rad3</th><th>Rad4</th><th>Rad5</th><th>Rad6</th><th>Rad7</th><th>Rad8</th><th>Rad9</th>
                                 <th>Rad10</th><th>Rad11</th><th>Rad12</th>
-                                <th>AcciÃ³n</th>
+                                <th>Acción</th>
                             </tr>
                         </thead>
                         <tbody class="small">
@@ -184,13 +183,18 @@
                                                 data-fuente="{{ json_encode($fuente) }}" title="Ver detalles de la fuente">
                                                 <img src="{{ asset('img/iconos/Ver2.png') }}" alt="Ver Icon" style="width: 30px; height: 30px;" class="rounded-full me-2">                                             
                                         </button>
-
                                     
                                         @if (auth()->user()->role === 1)
-                                        <a href="{{ route('fuentes.edit', $fuente->id) }}" class="btn  btn-sm">
-                                            <img src="{{ asset('img/iconos/editar3.png') }}" alt="Editar Icon" style="width: 30px; height: 30px;" class="rounded-full me-2">
+                                        <!-- Botón para edición completa -->
+                                        <a href="{{ route('fuentes.edit', ['id' => $fuente->id, 'modo' => 'edicion']) }}" class="btn  btn-sm">
+                                            <img src="{{ asset('img/iconos/editar3.png') }}" alt="Editar Icon" style="width: 30px; height: 30px;" class="rounded-full me-2" title="Editar fuente">
+                                        </a>
+                                        
+                                        <!-- Botón para baja (solo lectura excepto ciertos campos) -->
+                                        <a href="{{ route('fuentes.edit', ['id' => $fuente->id, 'modo' => 'baja']) }}" class="btn  btn-sm">
+                                            <img src="{{ asset('img/iconos/baja2.png') }}" alt="Baja Icon" style="width: 30px; height: 30px;" class="rounded-full me-2" title="Baja de fuente">
                                         </a>                                        
-                                        @endif
+                                    @endif
                                     </td>
                                 </tr>
                             @endforeach
@@ -200,7 +204,7 @@
                     
                 </div>
             </div>
-        </div>
+        
     </div>
 
 <!-- Modal para mostrar detalles completos de la fuente -->
@@ -272,13 +276,17 @@
                         <strong>Usuario Princ:</strong>
                         <p id="modalUsuario_Principal" class="bordered-field"></p>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <strong>Fecha Ref 1:</strong>
                         <p id="modalFecha_Referencia_1" class="bordered-field"></p>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <strong>Fecha Baja Real:</strong>
                         <p id="modalBaja_Real" class="bordered-field"></p>
+                    </div>
+                    <div class="col-md-4">
+                        <strong>Motivo de Baja:</strong>
+                        <p id="modalMotivo_Baja" class="bordered-field"></p>
                     </div>
                 </div>
 
@@ -557,14 +565,14 @@
     function generarCSV() {
         const letra = document.getElementById('filterBox').value; // Obtener el valor del filtro
        
-        const url = `{{ route('fuentes.exportar.csv') }}`; // Aseg�rate de que la ruta es correcta
+        const url = `{{ route('fuentes.exportar.csv') }}`; // Aseg�rate de que la ruta es correcta
 
         // Hacer una solicitud POST para generar el CSV
         fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}', // Aseg�rate de incluir el token CSRF
+                'X-CSRF-TOKEN': '{{ csrf_token() }}', // Aseg�rate de incluir el token CSRF
             },
             body: JSON.stringify({ filter: letra })
         })
@@ -626,14 +634,14 @@
     function generarCSVBajas() {
         const letra = document.getElementById('filterBox').value; // Obtener el valor del filtro
        
-        const url = `{{ route('fuentesbajas.exportar.csv') }}`; // Aseg�rate de que la ruta es correcta
+        const url = `{{ route('fuentesbajas.exportar.csv') }}`; // Aseg�rate de que la ruta es correcta
 
         // Hacer una solicitud POST para generar el CSV
         fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}', // Aseg�rate de incluir el token CSRF
+                'X-CSRF-TOKEN': '{{ csrf_token() }}', // Aseg�rate de incluir el token CSRF
             },
             body: JSON.stringify({ filter: letra })
         })

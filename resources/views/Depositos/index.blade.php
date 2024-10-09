@@ -4,27 +4,30 @@
      background-color: #d4edda !important; /* Color verde claro */
      color: #333; /* Cambia el color del texto (puedes modificarlo) */
      font-size: 1.1em; /* Agranda la letra un poco */
-     font-weight: bold; /* Opcional: negrita para resaltar más */
+     font-weight: bold; /* Opcional: negrita para resaltar mï¿½s */
      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra alrededor que da efecto 3D */
-     border-radius: 5px; /* Bordes redondeados para darle más suavidad */
+     border-radius: 5px; /* Bordes redondeados para darle mï¿½s suavidad */
      transform: scale(1.02); /* Efecto de agrandar ligeramente */
-     transition: all 0.3s ease; /* Suaviza el efecto de transición */
+     transition: all 0.3s ease; /* Suaviza el efecto de transiciï¿½n */
  }
  
- /* Efecto de transición suave para la fila */
+ /* Efecto de transiciï¿½n suave para la fila */
  #fuentesTable tbody tr {
-     transition: all 0.3s ease; /* Asegura una transición suave en todos los cambios */
+     transition: all 0.3s ease; /* Asegura una transiciï¿½n suave en todos los cambios */
  } 
 </style>
 
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Lista de DepÃ³sitos') }}
+            &nbsp;
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-3">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight text-center">
+            {{ __('Lista de DepÃ³sitos') }}
+        </h2>
         <div style="margin-left:3px">
             <div class="card shadow-sm">
                 <div class="card-body">

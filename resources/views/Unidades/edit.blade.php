@@ -27,7 +27,7 @@
 
                     <form action="{{ route('unidades.update', $unidad->id) }}" method="POST">
                         @csrf
-                        @method('PUT') <!-- Usamos PUT para la actualizaci�n -->
+                        @method('PUT') 
                         
                         <div class="form-group">
                             <label class="label-negrita" for="nombre">Nombre</label>
@@ -48,7 +48,11 @@
                                 <option value="0" {{ $unidad->activa == 0 ? 'selected' : '' }}>Inactiva</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-primary">Actualizar</button>
+                        <div class="col-md-12">                            
+                            <button type="submit" class="btn btn-primary mt-3">Actualizar</button>
+                                                
+                            <a href="{{ route('unidades.index') }}" class="btn btn-secondary mt-3 ms-3">Cancelar</a>
+                        </div> 
                     </form>
                 </div>
             </div>

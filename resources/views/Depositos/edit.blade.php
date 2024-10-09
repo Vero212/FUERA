@@ -48,7 +48,12 @@
                                 <option value="0" {{ $deposito->activo == 0 ? 'selected' : '' }}>Inactivo</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-primary">Actualizar</button>
+                        <div class="row">
+                            <div class="col-md-12">                                
+                                <button type="submit" class="btn btn-primary mt-3">Actualizar</button>
+                                                        
+                                <a href="{{ route('depositos.index') }}" class="btn btn-secondary mt-3 ms-3">Cancelar</a>
+                            </div> 
                     </form>
                 </div>
             </div>
